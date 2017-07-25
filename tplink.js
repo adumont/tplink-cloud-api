@@ -28,7 +28,7 @@ const _ = require('lodash');
 class TPLink {
   constructor(token, termid){
     this.token = token;
-    this.termid = token;
+    this.termid = termid;
   }
 
   static async login(user,passwd,termid){
