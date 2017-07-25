@@ -21,54 +21,54 @@ details.
 You should have received a copy of the GNU General Public License along with
 tplink-hs100-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-const rp = require('request-promise');
+var rp = require('request-promise');
 
 class HS100 {
   constructor(tpLink, deviceInfo){
     this.tpLink = tpLink;
     this.device = deviceInfo;
+    this.params = {
+      appName: 'Kasa_Android',
+      termID: tpLink.termid,
+      appVer: '1.4.4.607',
+      ospf: 'Android+6.0.1',
+      netType: 'wifi',
+      locale: 'es_ES',
+      token: tpLink.token
+    };
   }
 
   getDeviceId() {
     return this.device.deviceId;
   }
 
-  static async login(user,passwd,termid){
+  async powerOn() {
+    return await this.set_relay_state(1)
+  }
 
-    const params = {
-      appName: 'Kasa_Android',
-      termID: termid,
-      appVer: '1.4.4.607',
-      ospf: 'Android+6.0.1',
-      netType: 'wifi',
-      locale: 'es_ES'
-    };
+  async powerOff() {
+    return await this.set_relay_state(0)
+  }
 
-    const login_payload = JSON.stringify( { "method": "login", "url": "https://wap.tplinkcloud.com",
-        "params":{
-          "appType": "Kasa_Android",
-          "cloudPassword": passwd,
-          "cloudUserName": user,
-          "terminalUUID": termid
-        }
+  async set_relay_state(state){
+    let payload = {
+      "method":"passthrough",
+      "params": {
+        "deviceId": this.device.deviceId,
+        "requestData": JSON.stringify( {"system":{"set_relay_state":{"state": state }}} )
       }
-    );
+    }
 
-    const request = {
-      method: 'POST',
-      uri: "https://wap.tplinkcloud.com",
-      qs: params,
-      body: login_payload,
-      headers: {
-        'Connection': 'Keep-Alive',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)'
-      },
-    };
+    let request = { method: 'POST',
+      url: this.device.appServerUrl,
+      qs: this.params,
+      headers:
+       { 'cache-control': 'no-cache',
+         'content-type': 'application/json' },
+      body: JSON.stringify( payload )
+    }
 
-    const response = await rp( request );
-    const token = JSON.parse(response).result.token;
-    return new TPLink(token, termid);
+    return await rp( request );
   }
 
 }
