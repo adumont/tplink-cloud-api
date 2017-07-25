@@ -43,8 +43,14 @@ async function main(){
 
   console.log("deviceId=" + myPlug.getDeviceId())
 
-  var response = await myPlug.powerOn();
-  console.log("response=" + response );
+  //var response = await myPlug.powerOn();
+  //console.log("response=" + response );
+
+  let response = await myPlug.getSysInfo();
+  console.log("relay_state=" + response.relay_state );
+  //console.log( JSON.parse(response).relay_state );
+
+  console.log( await myPlug.get_relay_state() )
 }
 
 main();

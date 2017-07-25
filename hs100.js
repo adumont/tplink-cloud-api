@@ -51,11 +51,29 @@ class HS100 {
   }
 
   async set_relay_state(state){
+    return await this.tplink_request( {"system":{"set_relay_state":{"state": state }}} )
+  }
+
+  async getScheduleRules(){
+    return await this.tplink_request( {"schedule":{"get_rules":{}}} )
+  }
+
+  async get_relay_state(){
+    let r = await this.getSysInfo()
+    return r.relay_state
+  }
+
+  async getSysInfo(){
+    let r = await this.tplink_request( {"system":{"get_sysinfo":null},"emeter":{"get_realtime":null}} )
+    return JSON.parse( JSON.parse(r).result.responseData ).system.get_sysinfo
+  }
+
+  async tplink_request(command){
     let payload = {
       "method":"passthrough",
       "params": {
         "deviceId": this.device.deviceId,
-        "requestData": JSON.stringify( {"system":{"set_relay_state":{"state": state }}} )
+        "requestData": JSON.stringify( command )
       }
     }
 
