@@ -1,14 +1,14 @@
 {
-  "name": "async-tplink",
-  "version": "1.0.0",
+  "name": "tplink-hs100-cloud-api",
+  "version": "0.0.1",
   "description": "",
-  "main": "async.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GNU GPL v3",
   "dependencies": {
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
