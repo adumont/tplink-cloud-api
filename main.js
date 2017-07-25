@@ -22,7 +22,6 @@ You should have received a copy of the GNU General Public License along with
 tplink-hs100-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 const TPLink = require("./tplink.js")
-const HS100 = require("./hs100.js")
 var uuidV4 = require('uuid/v4');
 
 const TPLINK_USER = process.env.TPLINK_USER;
@@ -39,7 +38,7 @@ async function main(){
 
   console.log( dl )
 
-  const myPlug = new HS100(myTPLink, "My Smart Plug");
+  const myPlug = myTPLink.getHS100("My Smart Plug");
 
   console.log("deviceId=" + myPlug.getDeviceId())
 

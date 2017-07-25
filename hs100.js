@@ -21,18 +21,16 @@ details.
 You should have received a copy of the GNU General Public License along with
 tplink-hs100-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-var rp = require('request-promise');
-var _ = require('lodash');
+const rp = require('request-promise');
 
 class HS100 {
-  constructor(tpLink, alias){
+  constructor(tpLink, deviceInfo){
     this.tpLink = tpLink;
-    this.alias = alias;
-    this.deviceInfo = _.find( tpLink.deviceList , { "alias": alias } );
+    this.device = deviceInfo;
   }
 
   getDeviceId() {
-    return this.deviceInfo.deviceId;
+    return this.device.deviceId;
   }
 
   static async login(user,passwd,termid){
