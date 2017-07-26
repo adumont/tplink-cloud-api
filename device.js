@@ -20,39 +20,48 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-var TPLinkDevice = require('./device.js');
+var rp = require('request-promise');
 
-class HS100 extends TPLinkDevice {
+class TPLinkDevice {
   constructor(tpLink, deviceInfo){
-    super(tpLink, deviceInfo);
+    this.tpLink = tpLink;
+    this.device = deviceInfo;
+    this.params = {
+      appName: 'Kasa_Android',
+      termID: tpLink.termid,
+      appVer: '1.4.4.607',
+      ospf: 'Android+6.0.1',
+      netType: 'wifi',
+      locale: 'es_ES',
+      token: tpLink.token
+    };
   }
 
-  async powerOn() {
-    return await this.set_relay_state(1)
+  getDeviceId() {
+    return this.device.deviceId;
   }
 
-  async powerOff() {
-    return await this.set_relay_state(0)
-  }
+  async tplink_request(command){
+    let payload = {
+      "method":"passthrough",
+      "params": {
+        "deviceId": this.device.deviceId,
+        "requestData": JSON.stringify( command )
+      }
+    }
 
-  async set_relay_state(state){
-    return await super.tplink_request( {"system":{"set_relay_state":{"state": state }}} )
-  }
+    let request = { method: 'POST',
+      url: this.device.appServerUrl,
+      qs: this.params,
+      headers:
+       { 'cache-control': 'no-cache',
+         'content-type': 'application/json' },
+      body: JSON.stringify( payload )
+    }
 
-  async getScheduleRules(){
-    return await super.tplink_request( {"schedule":{"get_rules":{}}} )
-  }
-
-  async get_relay_state(){
-    let r = await this.getSysInfo()
-    return r.relay_state
-  }
-
-  async getSysInfo(){
-    let r = await super.tplink_request( {"system":{"get_sysinfo":null},"emeter":{"get_realtime":null}} )
-    return JSON.parse( JSON.parse(r).result.responseData ).system.get_sysinfo
+    return await rp( request );
   }
 
 }
 
-module.exports = HS100;
+module.exports = TPLinkDevice;

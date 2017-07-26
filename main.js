@@ -29,6 +29,7 @@ const TPLINK_PASS = process.env.TPLINK_PASS;
 const TPLINK_TERM = process.env.TPLINK_TERM || uuidV4();
 
 async function main(){
+  let response
 
   var myTPLink = await TPLink.login(TPLINK_USER, TPLINK_PASS,TPLINK_TERM);
 
@@ -45,7 +46,10 @@ async function main(){
   //var response = await myPlug.powerOn();
   //console.log("response=" + response );
 
-  let response = await myPlug.getSysInfo();
+  response = await myPlug.toggle();
+  console.log("response=" + response );
+
+  response = await myPlug.getSysInfo();
   console.log("relay_state=" + response.relay_state );
   //console.log( JSON.parse(response).relay_state );
 
