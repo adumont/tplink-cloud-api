@@ -1,14 +1,20 @@
 {
   "name": "tplink-cloud-api",
-  "version": "0.0.2",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
+  "description": "Control TP-Link smartplugs via their cloud web service from nodejs (no need to be on the same wifi/lan)",
+  "author": "Alexandre Dumont <adumont@gmail.com>",
+  "homepage": "http://itnerd.space",
   "license": "GNU GPL v3",
+  "version": "0.0.2",
+  "main": "main.js",
+  "keywords": [
+    "tp-link",
+    "smartplug",
+    "HS100",
+    "HS110",
+    "smartbulb",
+    "LB120",
+    "LB130"
+  ],
   "dependencies": {
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
