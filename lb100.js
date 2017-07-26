@@ -22,7 +22,7 @@ tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 var TPLinkDevice = require('./device.js');
 
-// Should work for LB100 & LB120
+// Should work for LB100, LB110 & LB120
 class LB100 extends TPLinkDevice {
   constructor(tpLink, deviceInfo){
     super(tpLink, deviceInfo);
