@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://gitlab.com/adumont/tplink-hs100-cloud-api/issues"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "tplink.js",
   "keywords": [
     "tp-link",
