@@ -1,6 +1,6 @@
 {
   "name": "tplink-cloud-api",
-  "description": "Control TP-Link smartplugs via their cloud web service from nodejs (no need to be on the same wifi/lan)",
+  "description": "Remotely control TP-Link smartplugs (HS100, HS110) and smartbulbs (LB100, LB110, LB120, LB130) using their cloud web service (no need to be on the same wifi/lan)",
   "author": "Alexandre Dumont <adumont@gmail.com>",
   "homepage": "http://itnerd.space",
   "license": "GNU GPL v3",
@@ -22,6 +22,8 @@
     "HS100",
     "HS110",
     "smartbulb",
+    "LB100",
+    "LB110",
     "LB120",
     "LB130"
   ],
