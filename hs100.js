@@ -43,6 +43,11 @@ class HS100 extends TPLinkDevice {
     return await super.tplink_request( {"schedule":{"get_rules":{}}} )
   }
 
+  async toggle(){
+    let s = await this.get_relay_state()
+    return await this.set_relay_state( (s==0)?1:0)
+  }
+
   async get_relay_state(){
     let r = await this.getSysInfo()
     return r.relay_state
