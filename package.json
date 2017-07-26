@@ -4,6 +4,13 @@
   "author": "Alexandre Dumont <adumont@gmail.com>",
   "homepage": "http://itnerd.space",
   "license": "GNU GPL v3",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/adumont/tplink-hs100-cloud-api.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/adumont/tplink-hs100-cloud-api/issues"
+  },
   "version": "0.0.3",
   "main": "main.js",
   "keywords": [
