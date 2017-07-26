@@ -4,7 +4,7 @@
   "author": "Alexandre Dumont <adumont@gmail.com>",
   "homepage": "http://itnerd.space",
   "license": "GNU GPL v3",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "main.js",
   "keywords": [
     "tp-link",
