@@ -6,10 +6,10 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/adumont/tplink-hs100-cloud-api.git"
+    "url": "https://github.com/adumont/tplink-cloud-api.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/adumont/tplink-hs100-cloud-api/issues"
+    "url": "https://github.com/adumont/tplink-cloud-api/issues"
   },
   "version": "0.1.1",
   "main": "tplink.js",
