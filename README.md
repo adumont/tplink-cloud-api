@@ -6,6 +6,7 @@ Usage
 
     const tplink = require('tplink-cloud-api')
 	async function main() { 
+      let myTPlink = await tplink.login('username@example.com', 'Password','TOKEN')
 		  //Token is generated if not specified
 	    let deviceList = await myTPlink.getDeviceList()
 	    //Generating device list is required
@@ -15,5 +16,3 @@ Usage
 	main()
 
 Requires Node.js > v7.7 (async)
-
-	
