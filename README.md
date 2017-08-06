@@ -6,7 +6,7 @@ Usage
 
     const tplink = require('tplink-cloud-api')
 	async function main() { 
-		//Token is generated if not specified
+		  //Token is generated if not specified
 	    let deviceList = await myTPlink.getDeviceList()
 	    //Generating device list is required
 	    let myDevice = me.getLB100("Device Alias");
