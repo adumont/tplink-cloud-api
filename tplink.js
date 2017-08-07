@@ -21,18 +21,19 @@ You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 var rp = require('request-promise');
+var uuidV4 = require('uuid/v4');
 var HS100 = require("./hs100.js")
 var LB100 = require("./lb100.js")
 var LB130 = require("./lb130.js")
 var _ = require('lodash');
 
 class TPLink {
-  constructor(token, termid){
+  constructor(token, termid) {
     this.token = token;
     this.termid = termid;
   }
 
-  static async login(user,passwd,termid){
+  static async login(user, passwd, termid = uuidV4()) {
 
     const params = {
       appName: 'Kasa_Android',
@@ -43,14 +44,15 @@ class TPLink {
       locale: 'es_ES'
     };
 
-    const login_payload = JSON.stringify( { "method": "login", "url": "https://wap.tplinkcloud.com",
-        "params":{
-          "appType": "Kasa_Android",
-          "cloudPassword": passwd,
-          "cloudUserName": user,
-          "terminalUUID": termid
-        }
+    const login_payload = JSON.stringify({
+      "method": "login", "url": "https://wap.tplinkcloud.com",
+      "params": {
+        "appType": "Kasa_Android",
+        "cloudPassword": passwd,
+        "cloudUserName": user,
+        "terminalUUID": termid
       }
+    }
     );
 
     const request = {
@@ -65,7 +67,7 @@ class TPLink {
       },
     };
 
-    const response = await rp( request );
+    const response = await rp(request);
     const token = JSON.parse(response).result.token;
     return new TPLink(token, termid);
   }
@@ -90,13 +92,13 @@ class TPLink {
       method: 'POST',
       uri: 'https://wap.tplinkcloud.com',
       qs: { token: this.token },
-      body: JSON.stringify( {method:"getDeviceList"} ),
+      body: JSON.stringify({ method: "getDeviceList" }),
       headers: {
         'Content-Type': 'application/json',
       },
     };
 
-    const response = await rp( request )
+    const response = await rp(request)
     const deviceList = JSON.parse(response).result.deviceList
     this.deviceList = deviceList
 
@@ -104,18 +106,18 @@ class TPLink {
   }
 
   // for an HS100 or HS110 smartplug
-  getHS100(alias){
-    return new HS100( this, _.find( this.deviceList , { "alias": alias } ) );
+  getHS100(alias) {
+    return new HS100(this, _.find(this.deviceList, { "alias": alias }));
   }
 
   // for an LB100, LB110 & LB120
-  getLB100(alias){
-    return new LB100( this, _.find( this.deviceList , { "alias": alias } ) );
+  getLB100(alias) {
+    return new LB100(this, _.find(this.deviceList, { "alias": alias }));
   }
 
   // for an LB130 lightbulb
-  getLB130(alias){
-    return new LB130( this, _.find( this.deviceList , { "alias": alias } ) );
+  getLB130(alias) {
+    return new LB130(this, _.find(this.deviceList, { "alias": alias }));
   }
 
 }
