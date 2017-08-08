@@ -21,7 +21,7 @@ npm install --save tplink-cloud-api
 First instanciate a TP-Link object. TermID (UUIDv4) is generated if not specified:
 
 ```javascript
-let myTPlink = await tplink.login('username@example.com',  'Password', 'TermID')
+let myTPlink = await tplink.login('username@example.com', 'Password', 'TermID')
 ```
 
 ## Retrieve devices
@@ -92,9 +92,8 @@ For help to choose the hue/saturation value, you can head to http://colorizer.or
 # Example
 
 ```javascript
-var TPLink = require("./tplink.js")
-var uuidV4 = require('uuid/v4');
-//var HS100 = require("./hs100.js")
+var TPLink = require('tplink-cloud-api')
+var uuidV4 = require('uuid/v4')
 
 const TPLINK_USER = process.env.TPLINK_USER;
 const TPLINK_PASS = process.env.TPLINK_PASS;
@@ -103,7 +102,7 @@ const TPLINK_TERM = process.env.TPLINK_TERM || uuidV4();
 async function main(){
   let response
 
-  var myTPLink = await TPLink.login(TPLINK_USER, TPLINK_PASS,TPLINK_TERM);
+  var myTPLink = await TPLink.login(TPLINK_USER, TPLINK_PASS, TPLINK_TERM);
 
   console.log( myTPLink.getToken() )
 
