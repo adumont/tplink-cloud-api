@@ -23,6 +23,7 @@ tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 var rp = require('request-promise');
 var uuidV4 = require('uuid/v4');
 var HS100 = require("./hs100.js")
+var HS110 = require("./hs110.js")
 var LB100 = require("./lb100.js")
 var LB130 = require("./lb130.js")
 var _ = require('lodash');
@@ -108,6 +109,10 @@ class TPLink {
   // for an HS100 or HS110 smartplug
   getHS100(alias) {
     return new HS100(this, _.find(this.deviceList, { "alias": alias }));
+  }
+
+  getHS110(alias) {
+    return new HS110(this, _.find(this.deviceList, { "alias": alias }));
   }
 
   // for an LB100, LB110 & LB120

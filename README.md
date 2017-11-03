@@ -62,6 +62,12 @@ await myTPLink.getHS100("My Smart Plug 3").powerOff();
 await myTPLink.getHS100("My Smart Plug 4").powerOff();
 ```
 
+To retrieve power consumption data for the HS110:
+
+```javascript
+await myTPLink.getHS110("My Smart Plug").getPowerUsage();
+```
+
 ### Smartbulbs (LB100/110/120/130)
 
 If you have an LB100/110/120, you can change it's state with:
