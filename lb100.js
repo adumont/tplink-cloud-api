@@ -29,7 +29,7 @@ class LB100 extends TPLinkDevice {
   }
 
   async transition_light_state(on_off, brightness){
-    // on_off: 1 on, 0 on_off
+    // on_off: 1 for On, 0 for Off
     // brightness: 0-100
     return await super.tplink_request( {
       "smartlife.iot.smartbulb.lightingservice": {
