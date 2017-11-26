@@ -26,7 +26,7 @@ var HS100 = require("./hs100.js")
 var HS110 = require("./hs110.js")
 var LB100 = require("./lb100.js")
 var LB130 = require("./lb130.js")
-var _ = require('lodash');
+var find = require("lodash.find");
 
 class TPLink {
   constructor(token, termid) {
@@ -108,21 +108,21 @@ class TPLink {
 
   // for an HS100 or HS110 smartplug
   getHS100(alias) {
-    return new HS100(this, _.find(this.deviceList, { "alias": alias }));
+    return new HS100(this, find(this.deviceList, { "alias": alias }));
   }
 
   getHS110(alias) {
-    return new HS110(this, _.find(this.deviceList, { "alias": alias }));
+    return new HS110(this, find(this.deviceList, { "alias": alias }));
   }
 
   // for an LB100, LB110 & LB120
   getLB100(alias) {
-    return new LB100(this, _.find(this.deviceList, { "alias": alias }));
+    return new LB100(this, find(this.deviceList, { "alias": alias }));
   }
 
   // for an LB130 lightbulb
   getLB130(alias) {
-    return new LB130(this, _.find(this.deviceList, { "alias": alias }));
+    return new LB130(this, find(this.deviceList, { "alias": alias }));
   }
 
 }
