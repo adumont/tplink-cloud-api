@@ -20,7 +20,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-var rp = require('request-promise');
+var axios = require('axios')
 
 class TPLinkDevice {
   constructor(tpLink, deviceInfo){
@@ -46,22 +46,22 @@ class TPLinkDevice {
       "method":"passthrough",
       "params": {
         "deviceId": this.device.deviceId,
-        "requestData": JSON.stringify( command )
+        "requestData": JSON.stringify(command)
       }
     }
 
     let request = { method: 'POST',
       url: this.device.appServerUrl,
-      qs: this.params,
-      headers:
-       { 'cache-control': 'no-cache',
-         'content-type': 'application/json' },
-      body: JSON.stringify( payload )
+      params: this.params,
+      headers: {
+        'cache-control': 'no-cache'
+      },
+      data: payload
     }
 
-    return await rp( request );
+    let response = await axios(request)
+    return JSON.stringify(response.data);
   }
-
 }
 
 module.exports = TPLinkDevice;
