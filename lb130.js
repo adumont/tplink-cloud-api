@@ -28,7 +28,7 @@ class LB130 extends TPLinkDevice {
   }
 
   async transition_light_state(on_off, brightness, hue, saturation){
-    // on_off: 1 on, 0 on_off
+    // on_off: 1 on, 0 off
     // hue: 0-360, saturation: 0-100, brightness: 0-100
     // See HSB in http://colorizer.org/
     return await super.tplink_request( {
