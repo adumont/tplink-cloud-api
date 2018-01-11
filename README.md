@@ -21,7 +21,7 @@ npm install --save tplink-cloud-api
 First instanciate a TP-Link object. TermID (UUIDv4) is generated if not specified:
 
 ```javascript
-let myTPlink = await tplink.login('username@example.com', 'Password', 'TermID')
+let myTPLink = await tplink.login('username@example.com', 'Password', 'TermID')
 ```
 
 ## Retrieve devices
@@ -29,7 +29,7 @@ let myTPlink = await tplink.login('username@example.com', 'Password', 'TermID')
 Once authenticated, you can use your tplink instance to retrieve the list of your devices:
 
 ```javascript
-let deviceList = await myTPlink.getDeviceList()
+let deviceList = await myTPLink.getDeviceList()
 ```
 ## Control your devices
 
@@ -44,7 +44,7 @@ await myTPLink.getHS100("My Smart Plug").toggle()
 You can also create an object and use it like this:
 
 ```javascript
-myPlug = myTPlink.getHS100("My Smart Plug ");
+myPlug = myTPLink.getHS100("My Smart Plug ");
 response = await myPlug.toggle();
 console.log( await myPlug.get_relay_state() )
 ```
