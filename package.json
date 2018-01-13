@@ -33,6 +33,7 @@
   ],
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
     "lodash.find": "^4.6.0",
     "uuid": "^3.1.0"
   },
