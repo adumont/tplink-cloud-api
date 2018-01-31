@@ -35,7 +35,12 @@ class HS110 extends HS100 {
 
   async getDayStats(year, month) {
     let r = await super.tplink_request({"emeter": {"get_daystat": { 'year': year, 'month': month }}})
-    return JSON.parse(JSON.parse(r).result.responseData).emeter.get_daystat
+    return JSON.parse(JSON.parse(r).result.responseData).emeter.get_daystat.day_list
+  }
+
+  async getMonthStats(year) {
+    let r = await super.tplink_request({"emeter": {"get_monthstat": { 'year': year }}})
+    return JSON.parse(JSON.parse(r).result.responseData).emeter.get_monthstat.month_list
   }
 }
 
