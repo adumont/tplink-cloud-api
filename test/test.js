@@ -1,5 +1,5 @@
-'use strict'
+"use strict";
 
-require('dotenv').config()
+require("dotenv").config();
 
-require('./testHS100')
+require("./testHS100");
