@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/adumont/tplink-cloud-api/issues"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "./distribution/tplink.js",
   "scripts": {
     "build": "babel lib --out-dir distribution",
