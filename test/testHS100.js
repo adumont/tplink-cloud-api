@@ -27,7 +27,7 @@ describe("HS100", () => {
 
     console.log(myPlug);
 
-    const relay_state = await myPlug.get_relay_state();
+    const relay_state = await myPlug.getRelayState();
 
     console.log(relay_state);
 
