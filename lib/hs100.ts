@@ -51,7 +51,7 @@ export default class HS100 extends Device {
   }
 
   async isOn() {
-    return (await this.getRelayState()).relay_state === 1;
+    return (await this.getRelayState()) === 1;
   }
 
   async isOff() {

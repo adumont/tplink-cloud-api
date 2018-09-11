@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepublish": "yarn build",
-    "test": "yarn build && mocha"
+    "test": "mocha -r ts-node/register -p tsconfig.json lib/**/*.spec.ts"
   },
   "keywords": [
     "tp-link",
@@ -35,14 +35,17 @@
   ],
   "dependencies": {
     "axios": "^0.17.1",
-    "lodash.find": "^4.6.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^10.9.4",
+    "@types/uuid": "^3.4.4",
+    "axios-mock-adapter": "^1.15.0",
     "chai": "^4.1.2",
-    "dotenv": "^4.0.0",
-    "mocha": "^4.1.0",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
   }
 }
