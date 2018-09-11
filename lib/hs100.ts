@@ -20,11 +20,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import Device from "./device";
 
-var TPLinkDevice = require("./device.js");
-
-class HS100 extends TPLinkDevice {
+export default class HS100 extends Device {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
     this.genericType = "plug";
@@ -53,7 +51,7 @@ class HS100 extends TPLinkDevice {
   }
 
   async isOn() {
-    return (await this.getRelayState()).relay_state === 1;
+    return (await this.getRelayState()) === 1;
   }
 
   async isOff() {
@@ -82,5 +80,3 @@ class HS100 extends TPLinkDevice {
     return r.system.get_sysinfo;
   }
 }
-
-module.exports = HS100;

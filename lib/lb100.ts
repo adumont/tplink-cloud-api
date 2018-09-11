@@ -20,30 +20,62 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import Device from "./device";
 
-var TPLinkDevice = require("./device.js");
-
-class LB130 extends TPLinkDevice {
+// Should work for LB100, LB110 & LB120
+export default class LB100 extends Device {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
+    this.genericType = "bulb";
   }
 
-  async setState(onOff, brightness, hue, saturation) {
+  async getState() {
+    const r = await super.passthroughRequest({
+      "smartlife.iot.smartbulb.lightingservice": {
+        get_light_state: {}
+      }
+    });
+    return r["smartlife.iot.smartbulb.lightingservice"]["get_light_state"];
+  }
+
+  async isOn() {
+    return (await this.getState()).on_off === 1;
+  }
+
+  async isOff() {
+    return !(await this.isOn());
+  }
+
+  async powerOn() {
+    return this.setState(1);
+  }
+
+  async powerOff() {
+    return this.setState(0);
+  }
+
+  async toggle() {
+    let s = await this.getState();
+    return await this.setState(s.on_off === 0 ? 1 : 0);
+  }
+
+  async transition_light_state(onOff, brightness) {
+    // TODO remove
+    return this.setState(onOff, brightness);
+  }
+
+  protected async setState(
+    onOff: number,
+    brightness?: number,
+    unusued?: any,
+    unusued2?: any
+  ) {
     // on_off: 1 on, 0 off
-    // hue: 0-360, saturation: 0-100, brightness: 0-100
-    // See HSB in http://colorizer.org/
+    // brightness: 0-100
     return await super.passthroughRequest({
       "smartlife.iot.smartbulb.lightingservice": {
-        transition_light_state: {
-          on_off: onOff,
-          brightness,
-          hue,
-          saturation
-        }
+        transition_light_state: { on_off: onOff, brightness }
       }
     });
   }
 }
-
-module.exports = LB130;

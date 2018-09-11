@@ -20,12 +20,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import HS100 from "./hs100";
 
-var TPLinkDevice = require("./device.js");
-var HS100 = require("./hs100.js");
-
-class HS110 extends HS100 {
+export default class HS110 extends HS100 {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
   }
@@ -51,5 +48,3 @@ class HS110 extends HS100 {
     return r.emeter.get_monthstat.month_list;
   }
 }
-
-module.exports = HS110;

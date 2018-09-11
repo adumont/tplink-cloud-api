@@ -20,12 +20,16 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import axios from "axios";
+import TPLink from "./tplink";
+import { checkError } from "./api-utils";
 
-const axios = require("axios");
-const { checkError } = require("./api-utils");
+export default class TPLinkDevice {
+  genericType: string;
+  device: any;
+  private params: any;
+  private tpLink: TPLink;
 
-class TPLinkDevice {
   constructor(tpLink, deviceInfo) {
     if (!tpLink) {
       throw new Error("missing required parameter tpLink");
@@ -121,5 +125,3 @@ class TPLinkDevice {
       : response.data;
   }
 }
-
-module.exports = TPLinkDevice;

@@ -20,68 +20,71 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import axios from "axios";
+import HS100 from "./hs100";
+import HS110 from "./hs110";
+import LB100 from "./lb100";
+import LB130 from "./lb130";
+import Device from "./device";
+import { v4 } from "uuid";
+import { checkError } from "./api-utils";
 
-const axios = require("axios");
-const find = require("lodash.find");
-const uuidV4 = require("uuid/v4");
-const HS100 = require("./hs100");
-const HS110 = require("./hs110");
-const LB100 = require("./lb100");
-const LB130 = require("./lb130");
-const { checkError } = require("./api-utils");
+export async function login(user, passwd, termid = v4()): Promise<TPLink> {
+  if (!user) {
+    throw new Error("missing required user parameter");
+  } else if (!passwd) {
+    throw new Error("missing required password parameter");
+  }
 
-class TPLink {
+  const request = {
+    method: "POST",
+    url: "https://wap.tplinkcloud.com",
+    params: {
+      appName: "Kasa_Android",
+      termID: termid,
+      appVer: "1.4.4.607",
+      ospf: "Android+6.0.1",
+      netType: "wifi",
+      locale: "es_ES"
+    },
+    data: {
+      method: "login",
+      url: "https://wap.tplinkcloud.com",
+      params: {
+        appType: "Kasa_Android",
+        cloudPassword: passwd,
+        cloudUserName: user,
+        terminalUUID: termid
+      }
+    },
+    headers: {
+      "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)"
+    }
+  };
+
+  const response = await axios(request);
+  checkError(response);
+  const token = response.data.result.token;
+  return new TPLink(token, termid);
+}
+
+export default class TPLink {
+  token: string;
+  termid: string;
+  deviceList: any[];
   constructor(token, termid) {
     this.token = token;
     this.termid = termid;
   }
 
-  static async login(user, passwd, termid = uuidV4()) {
-    if (!user) {
-      throw new Error("missing required user parameter");
-    } else if (!passwd) {
-      throw new Error("missing required password parameter");
-    }
-
-    const request = {
-      method: "POST",
-      url: "https://wap.tplinkcloud.com",
-      params: {
-        appName: "Kasa_Android",
-        termID: termid,
-        appVer: "1.4.4.607",
-        ospf: "Android+6.0.1",
-        netType: "wifi",
-        locale: "es_ES"
-      },
-      data: {
-        method: "login",
-        url: "https://wap.tplinkcloud.com",
-        params: {
-          appType: "Kasa_Android",
-          cloudPassword: passwd,
-          cloudUserName: user,
-          terminalUUID: termid
-        }
-      },
-      headers: {
-        "User-Agent":
-          "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)"
-      }
-    };
-
-    const response = await axios(request);
-    checkError(response);
-    const token = response.data.result.token;
-    return new TPLink(token, termid);
+  getTermId(): string {
+    return this.termid;
   }
-
-  getToken() {
+  getToken(): string {
     return this.token;
   }
 
-  async getDeviceList() {
+  async getDeviceList(): Promise<any[]> {
     const request = {
       method: "POST",
       url: "https://wap.tplinkcloud.com",
@@ -107,7 +110,7 @@ class TPLink {
   }
 
   // factory to return a new device object from a name (alias) or info object, { deviceType: ..., deviceModel: ... }
-  newDevice(nameOrInfo) {
+  newDevice(nameOrInfo): Device {
     if (!nameOrInfo) {
       throw new Error("missing required parameter nameOrInfo");
     } else if (
@@ -128,12 +131,12 @@ class TPLink {
     const type = deviceInfo.deviceType.toLowerCase();
     const model = deviceInfo.deviceModel;
     if (type.includes("bulb")) {
-      if (model.includes("130")) {
+      if (model && model.includes("130")) {
         return new LB130(this, deviceInfo);
       }
       return new LB100(this, deviceInfo);
     } else if (type.includes("plug")) {
-      if (model.includes("110")) {
+      if (model && model.includes("110")) {
         return new HS110(this, deviceInfo);
       }
       return new HS100(this, deviceInfo);
@@ -142,8 +145,11 @@ class TPLink {
     }
   }
 
-  findDevice(alias) {
-    const deviceInfo = find(this.deviceList, { alias: alias });
+  findDevice(alias: string): any {
+    let deviceInfo;
+    if (alias && this.deviceList) {
+      deviceInfo = this.deviceList.find(d => d.alias === alias);
+    }
     if (!deviceInfo) {
       throw new Error("invalid alias: not found in device list");
     }
@@ -161,7 +167,7 @@ class TPLink {
   }
 
   // for an LB100, LB110 & LB120
-  getLB100(alias) {
+  getLB100(alias): LB100 {
     return new LB100(this, this.findDevice(alias));
   }
   getLB110(alias) {
@@ -176,5 +182,3 @@ class TPLink {
     return new LB130(this, this.findDevice(alias));
   }
 }
-
-module.exports = TPLink;
