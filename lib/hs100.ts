@@ -20,60 +20,63 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import Device from "./device";
 
-var TPLinkDevice = require("./device.js");
-
-// Should work for LB100, LB110 & LB120
-class LB100 extends TPLinkDevice {
+export default class HS100 extends Device {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
-    this.genericType = "bulb";
+    this.genericType = "plug";
   }
 
-  async getState() {
-    const r = await super.passthroughRequest({
-      "smartlife.iot.smartbulb.lightingservice": {
-        get_light_state: {}
-      }
+  async powerOn() {
+    return await this.setRelayState(1);
+  }
+
+  async powerOff() {
+    return await this.setRelayState(0);
+  }
+
+  async setRelayState(state) {
+    return await super.passthroughRequest({
+      system: { set_relay_state: { state } }
     });
-    return r["smartlife.iot.smartbulb.lightingservice"]["get_light_state"];
+  }
+  async set_relay_state(state) {
+    // TODO remove
+    return this.setRelayState(state);
+  }
+
+  async getScheduleRules() {
+    return await super.passthroughRequest({ schedule: { get_rules: {} } });
   }
 
   async isOn() {
-    return (await this.getState()).on_off === 1;
+    return (await this.getRelayState()).relay_state === 1;
   }
 
   async isOff() {
     return !(await this.isOn());
   }
 
-  async powerOn() {
-    return this.setState(1);
-  }
-
-  async powerOff() {
-    return this.setState(0);
-  }
-
   async toggle() {
-    let s = await this.getState();
-    return await this.setState(s.on_off === 0 ? 1 : 0);
+    let s = await this.getRelayState();
+    return await this.setRelayState(s === 0 ? 1 : 0);
   }
 
-  async transition_light_state(onOff, brightness) {
+  async get_relay_state() {
     // TODO remove
-    return this.setState(onOff, brightness);
+    return this.getRelayState();
   }
-  async setState(onOff, brightness) {
-    // on_off: 1 for On, 0 for Off
-    // brightness: 0-100
-    return await super.passthroughRequest({
-      "smartlife.iot.smartbulb.lightingservice": {
-        transition_light_state: { on_off: onOff, brightness }
-      }
+  async getRelayState() {
+    let r = await this.getSysInfo();
+    return r.relay_state;
+  }
+
+  async getSysInfo() {
+    let r = await super.passthroughRequest({
+      system: { get_sysinfo: null },
+      emeter: { get_realtime: null }
     });
+    return r.system.get_sysinfo;
   }
 }
-
-module.exports = LB100;

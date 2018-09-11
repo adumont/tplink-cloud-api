@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["es2018"],
+    "types": ["node"],
+    "baseUrl": "./lib",
+    "outDir": "distribution",
+    "declaration": true,
+    "declarationDir": "distribution"
+  },
+  "include": ["lib/*"]
+}

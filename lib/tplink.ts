@@ -20,24 +20,26 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import axios from "axios";
+import HS100 from "./hs100";
+import HS110 from "./hs110";
+import LB100 from "./lb100";
+import LB130 from "./lb130";
+import Device from "./device";
+import find from "lodash.find";
+import uuid from "uuid/v4";
+import { checkError } from "./api-utils";
 
-const axios = require("axios");
-const find = require("lodash.find");
-const uuidV4 = require("uuid/v4");
-const HS100 = require("./hs100");
-const HS110 = require("./hs110");
-const LB100 = require("./lb100");
-const LB130 = require("./lb130");
-const { checkError } = require("./api-utils");
-
-class TPLink {
+export default class TPLink {
+  private token: string;
+  private termid: string;
+  deviceList: any[];
   constructor(token, termid) {
     this.token = token;
     this.termid = termid;
   }
 
-  static async login(user, passwd, termid = uuidV4()) {
+  static async login(user, passwd, termid = uuid()) {
     if (!user) {
       throw new Error("missing required user parameter");
     } else if (!passwd) {
@@ -161,7 +163,7 @@ class TPLink {
   }
 
   // for an LB100, LB110 & LB120
-  getLB100(alias) {
+  getLB100(alias): LB100 {
     return new LB100(this, this.findDevice(alias));
   }
   getLB110(alias) {
@@ -176,5 +178,3 @@ class TPLink {
     return new LB130(this, this.findDevice(alias));
   }
 }
-
-module.exports = TPLink;

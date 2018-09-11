@@ -20,36 +20,33 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-require("babel-polyfill");
+import LB100 from "./lb100";
 
-var TPLinkDevice = require("./device.js");
-var HS100 = require("./hs100.js");
-
-class HS110 extends HS100 {
+export default class LB130 extends LB100 {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
   }
 
-  async getPowerUsage() {
-    const r = await super.passthroughRequest({
-      emeter: { get_realtime: null }
+  async setState(
+    onOff: number,
+    brightness?: number,
+    hue?: number,
+    saturation?: number
+  ) {
+    // on_off: 1 on, 0 off
+    // brightness: 0-100
+    // hue: 0-360
+    // saturation: 0-100,
+    // See HSB in http://colorizer.org/
+    return await super.passthroughRequest({
+      "smartlife.iot.smartbulb.lightingservice": {
+        transition_light_state: {
+          on_off: onOff,
+          brightness,
+          hue,
+          saturation
+        }
+      }
     });
-    return r.emeter.get_realtime;
-  }
-
-  async getDayStats(year, month) {
-    const r = await super.passthroughRequest({
-      emeter: { get_daystat: { year: year, month: month } }
-    });
-    return r.emeter.get_daystat.day_list;
-  }
-
-  async getMonthStats(year) {
-    const r = await super.passthroughRequest({
-      emeter: { get_monthstat: { year: year } }
-    });
-    return r.emeter.get_monthstat.month_list;
   }
 }
-
-module.exports = HS110;
