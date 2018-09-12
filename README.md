@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/adumont/tplink-cloud-api.svg?branch=master)](https://travis-ci.org/adumont/tplink-cloud-api)
+
 # Introduction
 
 The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link smartplugs (HS100, HS110) and smartbulbs (LB100, LB110, LB120, LB130) using the TP-Link cloud web service, from anywhere, without the need to be on the same wifi/lan.
