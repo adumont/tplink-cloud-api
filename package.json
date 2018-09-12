@@ -34,6 +34,9 @@
     "LB120",
     "LB130"
   ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
     "axios": "^0.17.1",
     "uuid": "^3.1.0"

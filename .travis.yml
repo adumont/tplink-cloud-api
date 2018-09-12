@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "node"
+  - "9"
+  - "8"
+  - "7"
+  - "6"
+install:
+  - yarn install
+script:
+  - yarn lint
+  - yarn build
+  - yarn test
+cache:
+  yarn: true
+  directories:
+    - node_modules
