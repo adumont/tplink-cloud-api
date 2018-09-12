@@ -20,9 +20,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import Device from "./device";
+import device from "./device";
 
-export default class HS100 extends Device {
+export default class HS100 extends device {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
     this.genericType = "plug";
@@ -59,7 +59,7 @@ export default class HS100 extends Device {
   }
 
   async toggle() {
-    let s = await this.getRelayState();
+    const s = await this.getRelayState();
     return await this.setRelayState(s === 0 ? 1 : 0);
   }
 
@@ -68,12 +68,12 @@ export default class HS100 extends Device {
     return this.getRelayState();
   }
   async getRelayState() {
-    let r = await this.getSysInfo();
+    const r = await this.getSysInfo();
     return r.relay_state;
   }
 
   async getSysInfo() {
-    let r = await super.passthroughRequest({
+    const r = await super.passthroughRequest({
       system: { get_sysinfo: null },
       emeter: { get_realtime: null }
     });

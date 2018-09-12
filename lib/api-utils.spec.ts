@@ -1,6 +1,6 @@
-import { checkError } from "./api-utils";
 import { expect } from "chai";
 import "mocha";
+import { checkError } from "./api-utils";
 describe("api-utils module", () => {
   describe("checkError()", () => {
     it("should detect errors", () => {

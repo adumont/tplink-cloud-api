@@ -1,14 +1,14 @@
 import tplink, { login } from "./tplink";
 import { expect } from "chai";
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
+import axiosMockAdapter from "axios-mock-adapter";
 import "mocha";
-import LB100 from "./lb100";
-import HS100 from "./hs100";
+import lb100 from "./lb100";
+import hs100 from "./hs100";
 describe("tplink", () => {
   describe("login()", () => {
     it("should instantiate a tplink object when valid params are passed", async () => {
-      const mock = new AxiosMockAdapter(axios);
+      const mock = new axiosMockAdapter(axios);
       // login
       mock
         .onPost("https://wap.tplinkcloud.com")
@@ -41,7 +41,7 @@ describe("tplink", () => {
     });
   });
   describe("getDeviceList()", async () => {
-    const mock = new AxiosMockAdapter(axios);
+    const mock = new axiosMockAdapter(axios);
     // login
     mock
       .onPost("https://wap.tplinkcloud.com")
@@ -98,7 +98,7 @@ describe("tplink", () => {
       ];
       expect(() => lTplink.findDevice("dne")).to.throw(Error);
       expect(() => lTplink.findDevice("bedroom tv plug")).not.to.throw();
-      let device = lTplink.findDevice("bedroom tv plug");
+      const device = lTplink.findDevice("bedroom tv plug");
       expect(device).to.deep.equal({
         deviceId: 456,
         alias: "bedroom tv plug",
@@ -108,11 +108,11 @@ describe("tplink", () => {
 
       // TODO restrict get* to correct type (eg: getHS100('my bulb') works, but should not)
       let cDevice = lTplink.newDevice("living room bulb");
-      expect(cDevice).to.be.instanceOf(LB100);
+      expect(cDevice).to.be.instanceOf(lb100);
       expect(cDevice.id).to.equal(123);
 
       cDevice = lTplink.newDevice("bedroom tv plug");
-      expect(cDevice).to.be.instanceof(HS100);
+      expect(cDevice).to.be.instanceof(hs100);
       expect(cDevice.id).to.equal(456);
     });
   });

@@ -1,0 +1,9 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint-config-airbnb", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "no-unused-expression-chai": true
+  },
+  "rulesDirectory": ["tslint-no-unused-expression-chai"]
+}

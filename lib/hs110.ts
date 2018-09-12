@@ -20,9 +20,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import HS100 from "./hs100";
+import hs100 from "./hs100";
 
-export default class HS110 extends HS100 {
+export default class HS110 extends hs100 {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
   }
@@ -36,14 +36,14 @@ export default class HS110 extends HS100 {
 
   async getDayStats(year, month) {
     const r = await super.passthroughRequest({
-      emeter: { get_daystat: { year: year, month: month } }
+      emeter: { get_daystat: { year, month } }
     });
     return r.emeter.get_daystat.day_list;
   }
 
   async getMonthStats(year) {
     const r = await super.passthroughRequest({
-      emeter: { get_monthstat: { year: year } }
+      emeter: { get_monthstat: { year } }
     });
     return r.emeter.get_monthstat.month_list;
   }

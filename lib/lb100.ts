@@ -20,10 +20,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import Device from "./device";
+import device from "./device";
 
 // Should work for LB100, LB110 & LB120
-export default class LB100 extends Device {
+export default class LB100 extends device {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
     this.genericType = "bulb";
@@ -55,7 +55,7 @@ export default class LB100 extends Device {
   }
 
   async toggle() {
-    let s = await this.getState();
+    const s = await this.getState();
     return await this.setState(s.on_off === 0 ? 1 : 0);
   }
 
@@ -74,7 +74,7 @@ export default class LB100 extends Device {
     // brightness: 0-100
     return await super.passthroughRequest({
       "smartlife.iot.smartbulb.lightingservice": {
-        transition_light_state: { on_off: onOff, brightness }
+        transition_light_state: { brightness, on_off: onOff }
       }
     });
   }

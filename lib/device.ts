@@ -21,23 +21,36 @@ You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import axios from "axios";
-import TPLink from "./tplink";
+import tplink from "./tplink";
 import { checkError } from "./api-utils";
+
+export interface TPLinkDeviceInfo {
+  fwVer: string;
+  alias: string;
+  status: number;
+  deviceId: string;
+  role: string;
+  deviceMac: string;
+  deviceName: string;
+  deviceType: string;
+  deviceModel: string;
+  appServerUrl: string;
+}
 
 export default class TPLinkDevice {
   genericType: string;
-  device: any;
+  device: TPLinkDeviceInfo;
   private params: any;
-  private tpLink: TPLink;
 
-  constructor(tpLink, deviceInfo) {
+  constructor(tpLink: tplink, deviceInfo: TPLinkDeviceInfo) {
     if (!tpLink) {
       throw new Error("missing required parameter tpLink");
     } else if (!deviceInfo) {
       throw new Error("missing required paramemter deviceInfo");
+    } else if (typeof deviceInfo !== "object") {
+      throw new Error("invalid type passed for deviceInfo, expected object.");
     }
 
-    this.tpLink = tpLink;
     this.device = deviceInfo;
     this.params = {
       appName: "Kasa_Android",
@@ -83,6 +96,9 @@ export default class TPLinkDevice {
   }
   getDeviceId() {
     return this.device.deviceId;
+  }
+  get appServerUrl() {
+    return this.device.appServerUrl;
   }
 
   async getSystemInfo() {
