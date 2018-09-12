@@ -15,3 +15,9 @@ cache:
   yarn: true
   directories:
     - node_modules
+deploy:
+  provider: npm
+  email: adumont@gmail.com
+  api_key:
+    secure: V5bdAFR3TbeGPapvREntQ/1zGj3qc+oC2sFrIvvo2m0w4s611tjHitPnjdx8FLVhLWZoMWHJFAgfThPeRXZtO2Vr5WmMjskVLBD3VNcE00F/t/qnB1prja+hWTxNG8vOdORDKKTVX0TPkkCqkv2CO0/riY/wNAWbr0EvQjBkAZBKyPYJm2ITs2PR4b3fpVq3s7z0IGS6RloN9me1W3kthDj1s4hS/0lNVbMbioi2dPvj35aosT3T9IBWmP+KEZVS7jRBCvTcZFYWEL5NzmVk3lY1AvF9Tgdu0U2yeQ87aDcNoO7EaOjCD+YUhfVhSut69Kx1h2kb6XBaasaSCMpM0oe/cUvcfeNRBfYaj1TT4QjRM2pMQp1P50z73SvWAiYFn7/4wPzVh/4B0fSvqQ63k6VFk9MnT6yd8w0+THhEL6j4pX9+NVlgzwvBE/fCAE6zpwcx81vtOZmATcVFO91SZJMkj2lKaC46RrsNA5pgoCaElsQcplFXC69WTrJgoLUI6gtDLMRyxYqZv2XSzDc+fGUTeiURxhLcr8JhlISTZgxmPNjLLS/rxpr5ZtJ52LO3uuL0l9WLjgAxckywQir3UOsFBfp7mgI5Sm1RxtpV8fmbO0J2ShGYD4QPzi5IvPsaDek7t2ncX4u/SMN/JWvomrlwOzgi85dt2zpOpObGx0o=
+
