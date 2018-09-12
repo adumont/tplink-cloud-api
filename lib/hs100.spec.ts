@@ -1,15 +1,15 @@
-import tplink from "./tplink";
-import { expect } from "chai";
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
+import axiosMockAdapter from "axios-mock-adapter";
+import { expect } from "chai";
 import "mocha";
-import HS100 from "./hs100";
+import hs100 from "./hs100";
+import tplink from "./tplink";
 
 describe("hs100", () => {
   const lTplink = new tplink("token", "termid");
   describe("can toggle plug state", () => {
     it("reads correctly", async () => {
-      const mock = new AxiosMockAdapter(axios);
+      const mock = new axiosMockAdapter(axios);
       // off
       mock
         .onPost("/mock-server")
@@ -60,7 +60,7 @@ describe("hs100", () => {
         .onAny("/mock-server")
         .reply(400, { error_code: 2, msg: "bad request" });
 
-      let d = new HS100(lTplink, {
+      const d = new hs100(lTplink, {
         appServerUrl: "/mock-server",
         fwVer: "1011",
         alias: "bedroom tv",
@@ -86,10 +86,10 @@ describe("hs100", () => {
       isOn = await d.isOn();
       expect(isOn).to.be.true;
 
-      //   isOff = await d.isOff();
-      //   expect(isOff).to.be.false;
+      isOff = await d.isOff();
+      expect(isOff).to.be.false;
 
-      //   await d.powerOff();
+      await d.powerOff();
     });
   });
 });

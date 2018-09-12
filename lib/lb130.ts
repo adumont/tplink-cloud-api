@@ -20,9 +20,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import LB100 from "./lb100";
+import lb100 from "./lb100";
 
-export default class LB130 extends LB100 {
+export default class LB130 extends lb100 {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
   }
@@ -41,10 +41,10 @@ export default class LB130 extends LB100 {
     return await super.passthroughRequest({
       "smartlife.iot.smartbulb.lightingservice": {
         transition_light_state: {
-          on_off: onOff,
           brightness,
           hue,
-          saturation
+          saturation,
+          on_off: onOff
         }
       }
     });

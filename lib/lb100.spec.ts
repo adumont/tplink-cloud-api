@@ -1,15 +1,15 @@
-import tplink from "./tplink";
-import { expect } from "chai";
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
+import axiosMockAdapter from "axios-mock-adapter";
+import { expect } from "chai";
 import "mocha";
-import LB100 from "./lb100";
+import lb100 from "./lb100";
+import tplink from "./tplink";
 
 describe("lb100", () => {
   const lTplink = new tplink("token", "termid");
   describe("can toggle light state", () => {
     it("reads correctly", async () => {
-      const mock = new AxiosMockAdapter(axios);
+      const mock = new axiosMockAdapter(axios);
       // off
       mock
         .onPost("/mock-server")
@@ -66,7 +66,7 @@ describe("lb100", () => {
         .onAny("/mock-server")
         .reply(400, { error_code: 2, msg: "bad request" });
 
-      let d = new LB100(lTplink, {
+      const d = new lb100(lTplink, {
         appServerUrl: "/mock-server",
         fwVer: "101",
         alias: "bedroom light",

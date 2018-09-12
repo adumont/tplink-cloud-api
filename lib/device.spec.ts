@@ -1,4 +1,4 @@
-import Device from "./device";
+import device from "./device";
 import { expect } from "chai";
 import tplink from "./tplink";
 import "mocha";
@@ -6,7 +6,7 @@ describe("tplink device", () => {
   const lTplink = new tplink("token", "termid");
 
   it("has expected properties after instantiation", () => {
-    let d = new Device(lTplink, {
+    const d = new device(lTplink, {
       fwVer: "101",
       alias: "bedroom tv plug2",
       status: 1,
@@ -15,8 +15,11 @@ describe("tplink device", () => {
       deviceMac: "feedbeef",
       deviceName: "name",
       deviceType: "IOT.SMARTPLUG",
-      deviceModel: "model"
+      deviceModel: "model",
+      appServerUrl: "/foo"
     });
+
+    expect(d.appServerUrl).to.equal("/foo");
     expect(d.genericType).to.equal("device");
     expect(d.firmwareVersion).to.equal("101");
     expect(d.role).to.equal("role1");

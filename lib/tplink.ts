@@ -21,13 +21,13 @@ You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import axios from "axios";
-import HS100 from "./hs100";
-import HS110 from "./hs110";
-import LB100 from "./lb100";
-import LB130 from "./lb130";
-import Device from "./device";
 import { v4 } from "uuid";
 import { checkError } from "./api-utils";
+import device from "./device";
+import hs100 from "./hs100";
+import hs110 from "./hs110";
+import lb100 from "./lb100";
+import lb130 from "./lb130";
 
 export async function login(user, passwd, termid = v4()): Promise<TPLink> {
   if (!user) {
@@ -110,7 +110,7 @@ export default class TPLink {
   }
 
   // factory to return a new device object from a name (alias) or info object, { deviceType: ..., deviceModel: ... }
-  newDevice(nameOrInfo): Device {
+  newDevice(nameOrInfo): device {
     if (!nameOrInfo) {
       throw new Error("missing required parameter nameOrInfo");
     } else if (
@@ -132,17 +132,17 @@ export default class TPLink {
     const model = deviceInfo.deviceModel;
     if (type.includes("bulb")) {
       if (model && model.includes("130")) {
-        return new LB130(this, deviceInfo);
+        return new lb130(this, deviceInfo);
       }
-      return new LB100(this, deviceInfo);
-    } else if (type.includes("plug")) {
-      if (model && model.includes("110")) {
-        return new HS110(this, deviceInfo);
-      }
-      return new HS100(this, deviceInfo);
-    } else {
-      return new Device(this, deviceInfo);
+      return new lb100(this, deviceInfo);
     }
+    if (type.includes("plug")) {
+      if (model && model.includes("110")) {
+        return new hs110(this, deviceInfo);
+      }
+      return new hs100(this, deviceInfo);
+    }
+    return new device(this, deviceInfo);
   }
 
   findDevice(alias: string): any {
@@ -158,17 +158,17 @@ export default class TPLink {
 
   // for an HS100 smartplug
   getHS100(alias) {
-    return new HS100(this, this.findDevice(alias));
+    return new hs100(this, this.findDevice(alias));
   }
 
   // for an HS110 smartplug
   getHS110(alias) {
-    return new HS110(this, this.findDevice(alias));
+    return new hs110(this, this.findDevice(alias));
   }
 
   // for an LB100, LB110 & LB120
-  getLB100(alias): LB100 {
-    return new LB100(this, this.findDevice(alias));
+  getLB100(alias): lb100 {
+    return new lb100(this, this.findDevice(alias));
   }
   getLB110(alias) {
     return this.getLB100(alias);
@@ -179,6 +179,6 @@ export default class TPLink {
 
   // for an LB130 lightbulb
   getLB130(alias) {
-    return new LB130(this, this.findDevice(alias));
+    return new lb130(this, this.findDevice(alias));
   }
 }
