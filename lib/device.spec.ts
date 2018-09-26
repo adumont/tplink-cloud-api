@@ -30,7 +30,14 @@ describe("tplink device", () => {
     expect(d.id).to.equal("1992");
     expect(d.alias).to.equal("bedroom tv plug2");
     expect(d.humanName).to.equal("bedroom tv plug2");
-    expect(d.status).to.equal(1);
     expect(d.name).to.equal("name");
+    expect(d.status).to.equal(1);
+    expect(d.connected).to.be.true;
+    expect(d.disconnected).to.be.false;
+
+    d.device.status = 0;
+    expect(d.connected).to.be.false;
+    expect(d.disconnected).to.be.true;
+    expect(d.status).to.equal(0);
   });
 });
