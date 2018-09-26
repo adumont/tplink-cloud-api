@@ -137,6 +137,12 @@ async function main() {
   // alternatively, map to light or plug objects that can directly be invoked (eg: .transitionLightState(...))
   for (const d of rawDevices) {
     const device = tplink.newDevice(d);
+
+    if (device.disconnected) {
+      // aka !connected
+      continue; // can't operate on a device that's not connected to the internet
+    }
+
     console.log(
       device.type,
       "(",

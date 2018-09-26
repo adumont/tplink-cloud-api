@@ -82,6 +82,12 @@ export default class TPLinkDevice {
   get name() {
     return this.device.deviceName;
   }
+  get disconnected() {
+    return this.status !== 1;
+  }
+  get connected() {
+    return this.status === 1;
+  }
   get status() {
     return this.device.status;
   }
