@@ -29,7 +29,27 @@ import hs110 from "./hs110";
 import lb100 from "./lb100";
 import lb130 from "./lb130";
 
-export async function login(user, passwd, termid = v4()): Promise<TPLink> {
+/* Example
+{
+  accountId: '12456',
+  regTime: '2017-12-09 03:53:19',
+  email: 'your-email@some-domain.com',
+  token: 'feed-beef...'
+} 
+*/
+interface LoginResponse {
+  accountId: string;
+  regTime: string;
+  email: string;
+  token: string;
+  // there is no refresh token in response
+}
+
+export async function login(
+  user: string,
+  passwd: string,
+  termid: string = v4()
+): Promise<TPLink> {
   if (!user) {
     throw new Error("missing required user parameter");
   } else if (!passwd) {
@@ -72,7 +92,7 @@ export default class TPLink {
   token: string;
   termid: string;
   deviceList: any[];
-  constructor(token, termid) {
+  constructor(token: string, termid: string = v4()) {
     this.token = token;
     this.termid = termid;
   }
