@@ -14,7 +14,12 @@ describe("tplink", () => {
         .onPost("https://wap.tplinkcloud.com")
         .replyOnce(200, {
           error_code: 0,
-          result: { token: "feedbeef1234" }
+          result: {
+            token: "feedbeef1234",
+            regTime: "2017-12-09 03:53:19",
+            accountId: "12456",
+            email: "someone@somewhere.com"
+          }
         })
         // device list
         .onAny("https://wap.tplinkcloud.com")
