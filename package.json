@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/adumont/tplink-cloud-api/issues"
   },
-  "version": "0.3.6",
+  "version": "0.3.7",
   "main": "./distribution/tplink.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
