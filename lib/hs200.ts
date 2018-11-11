@@ -20,9 +20,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import HS100 from "./hs100";
+import hs100 from "./hs100";
 
-export default class HS200 extends HS100 {
+export default class HS200 extends hs100 {
  constructor(tpLink, deviceInfo) {
    super(tpLink, deviceInfo);
    this.genericType = "switch";
