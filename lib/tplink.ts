@@ -26,6 +26,7 @@ import { checkError } from "./api-utils";
 import device from "./device";
 import hs100 from "./hs100";
 import hs110 from "./hs110";
+import hs200 from "./hs200";
 import lb100 from "./lb100";
 import lb130 from "./lb130";
 
@@ -35,7 +36,7 @@ import lb130 from "./lb130";
   regTime: '2017-12-09 03:53:19',
   email: 'your-email@some-domain.com',
   token: 'feed-beef...'
-} 
+}
 */
 interface LoginResponse {
   accountId: string;
@@ -162,6 +163,12 @@ export default class TPLink {
       }
       return new hs100(this, deviceInfo);
     }
+
+    if (type.includes("switch")) {
+      if (model && model.includes("200")) {
+        return new hs200(this, deviceInfo);
+      }
+    }
     return new device(this, deviceInfo);
   }
 
@@ -184,6 +191,11 @@ export default class TPLink {
   // for an HS110 smartplug
   getHS110(alias) {
     return new hs110(this, this.findDevice(alias));
+  }
+
+  // for an HS200 smart switch
+  getHS200(alias) {
+    return new hs200(this, this.findDevice(alias));
   }
 
   // for an LB100, LB110 & LB120
