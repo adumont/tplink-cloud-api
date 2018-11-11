@@ -20,7 +20,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import HS100 from "./HS100";
+import HS100 from "./hs100";
 
 export default class HS200 extends HS100 {
  constructor(tpLink, deviceInfo) {
