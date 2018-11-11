@@ -2,7 +2,7 @@
 
 # Introduction
 
-The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link smartplugs (HS100, HS110) and smartbulbs (LB100, LB110, LB120, LB130) using the TP-Link cloud web service, from anywhere, without the need to be on the same wifi/lan.
+The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link smartplugs (HS100, HS110), smart switches (HS200), and smartbulbs (LB100, LB110, LB120, LB130) using the TP-Link cloud web service, from anywhere, without the need to be on the same wifi/lan.
 
 It's especially useful in scenarios where you want to control your devices from public web services, like IFTTT, Thinger.io, Webtasks.io, Glitch.com...
 
@@ -71,6 +71,10 @@ To retrieve power consumption data for the HS110:
 ```javascript
 await tplink.getHS110("My Smart Plug").getPowerUsage();
 ```
+
+### Smart Switches (HS200)
+
+You can  toggle smart switches with the same API as the smart plugs.
 
 ### Smartbulbs (LB100/110/120/130)
 
