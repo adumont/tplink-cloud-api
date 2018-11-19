@@ -6,7 +6,7 @@ The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link s
 
 It's especially useful in scenarios where you want to control your devices from public web services, like IFTTT, Thinger.io, Webtasks.io, Glitch.com...
 
-It's based on my investigation work on the TP-Link API protocol, which I have been sharing in my blog http://itnerd.com.
+It's based on my investigation work on the TP-Link API protocol, which I have been sharing in my blog http://itnerd.space.
 
 # Installation
 
