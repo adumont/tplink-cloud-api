@@ -183,6 +183,12 @@ async function main() {
 main();
 ```
 
+## Nodejs App example
+
+You can remix this App on Glitch and call it via webhook using POST to the corresponing URL (given when you create the App):
+
+https://glitch.com/edit/#!/tplink-api-example
+
 # Available methods
 
 ## TPLink class
