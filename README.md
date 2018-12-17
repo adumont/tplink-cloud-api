@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/adumont/tplink-cloud-api.svg?branch=master)](https://travis-ci.org/adumont/tplink-cloud-api)
+[![codebeat badge](https://codebeat.co/badges/14afe7d2-3666-4d35-8fd6-c2e1b027e386)](https://codebeat.co/projects/github-com-adumont-tplink-cloud-api-master)
 
 # Introduction
 
