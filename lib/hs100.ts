@@ -54,6 +54,21 @@ export default class HS100 extends device {
     return await super.passthroughRequest({ schedule: { edit_rule: rule } });
   }
 
+  async setLedState(on: boolean) {
+    // weird api in tplink: we send 0 to set on and 1 to set off
+    const offState = on ? 0 : 1;
+
+    return await super.passthroughRequest(
+      {
+        "system": {
+          "set_led_off": {
+            "off": offState
+          }
+        }
+      }
+    );
+  }
+
   async isOn() {
     return (await this.getRelayState()) === 1;
   }
