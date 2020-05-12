@@ -50,6 +50,10 @@ export default class HS100 extends device {
     return await super.passthroughRequest({ schedule: { get_rules: {} } });
   }
 
+  async editScheduleRule(rule) {
+    return await super.passthroughRequest({ schedule: { edit_rule: rule } });
+  }
+
   async isOn() {
     return (await this.getRelayState()) === 1;
   }
