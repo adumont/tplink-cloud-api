@@ -175,10 +175,15 @@ export default class TPLink {
   findDevice(alias: string): any {
     let deviceInfo;
     if (alias && this.deviceList) {
+      // we first search a correspondig device by alias
       deviceInfo = this.deviceList.find(d => d.alias === alias);
+      // we then search a correspondig device by deviceId
+      if (!deviceInfo) {
+        deviceInfo = this.deviceList.find(d => d.deviceId === alias);
+      }
     }
     if (!deviceInfo) {
-      throw new Error("invalid alias: not found in device list");
+      throw new Error("invalid alias/deviceId: not found in device list");
     }
     return deviceInfo;
   }
