@@ -22,6 +22,7 @@
     "lint": "tslint --project tsconfig.json -c tslint.json lib/**/*.ts",
     "prepublish": "yarn build",
     "test": "mocha -r ts-node/register -p tsconfig.json lib/**/*.spec.ts"
+    "version": "git push; git push --tags"
   },
   "keywords": [
     "tp-link",
