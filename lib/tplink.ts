@@ -27,6 +27,7 @@ import device from "./device";
 import hs100 from "./hs100";
 import hs110 from "./hs110";
 import hs200 from "./hs200";
+import hs300 from "./hs300";
 import lb100 from "./lb100";
 import lb130 from "./lb130";
 
@@ -201,6 +202,11 @@ export default class TPLink {
   // for an HS200 smart switch
   getHS200(alias) {
     return new hs200(this, this.findDevice(alias));
+  }
+
+  // for an HS300 smart multi-switch
+  getHS300(alias) {
+    return new hs300(this, this.findDevice(alias));
   }
 
   // for an LB100, LB110 & LB120
