@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/adumont/tplink-cloud-api/issues"
   },
-  "version": "0.6.2-next.0",
+  "version": "0.6.2-next.1",
   "main": "./distribution/tplink.js",
   "files": [
     "/distribution/**/*"
@@ -21,8 +21,7 @@
     "build": "tsc -p tsconfig.json",
     "lint": "tslint --project tsconfig.json -c tslint.json lib/**/*.ts",
     "prepublish": "yarn build",
-    "test": "mocha -r ts-node/register -p tsconfig.json lib/**/*.spec.ts",
-    "version": "git push; git push --tags"
+    "test": "mocha -r ts-node/register -p tsconfig.json lib/**/*.spec.ts"
   },
   "keywords": [
     "tp-link",
