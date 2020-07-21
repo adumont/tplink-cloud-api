@@ -31,7 +31,7 @@ export default class LB120 extends lb100 {
   async setState(
     onOff: number,
     brightness?: number,
-    color_temp?: number
+    colorTemp?: number
   ) {
     // on_off: 1 on, 0 off
     // brightness: 0-100
@@ -42,7 +42,7 @@ export default class LB120 extends lb100 {
       "smartlife.iot.smartbulb.lightingservice": {
         transition_light_state: {
           brightness,
-          color_temp,
+          color_temp: colorTemp,
           on_off: onOff
         }
       }
