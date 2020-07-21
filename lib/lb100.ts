@@ -22,7 +22,7 @@ tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import device from "./device";
 
-// Should work for LB100, LB110 & LB120
+// Should work for LB100, LB110, KB100, KL100, KL50, KL60
 export default class LB100 extends device {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
