@@ -3,7 +3,7 @@
 
 # Introduction
 
-The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link smartplugs (HS100, HS110), smart switches (HS200), and smartbulbs (LB100, LB110, LB120, LB130) using the TP-Link cloud web service, from anywhere, without the need to be on the same wifi/lan.
+The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link smartplugs (HS100, HS110), smart switches (HS200), and smartbulbs (LB100, LB110, LB120, LB130, KL60, KL110, KL120, KL130, and more) using the TP-Link cloud web service, from anywhere, without the need to be on the same wifi/lan.
 
 It's especially useful in scenarios where you want to control your devices from public web services, like [IFTTT](https://ifttt.com/), [Thinger.io](https://thinger.io/), [Webtask.io](https://webtask.io/), [Glitch.com](http://glitch.com/), Tasker (Android)...
 
@@ -77,9 +77,9 @@ await tplink.getHS110("My Smart Plug").getPowerUsage();
 
 You can  toggle smart switches with the same API as the smart plugs.
 
-### Smartbulbs (LB100/110/120/130)
+### Smartbulbs (LB100/110/120/130, KL110/120/130)
 
-If you have an LB100/110/120, you can change it's state with:
+If you have an LB100/110 or KL50/60/110 (dimmable), you can change its state with:
 
 ```javascript
 await tplink.getLB100("Bedroom LB120").setState(1, 90);
@@ -87,21 +87,38 @@ await tplink.getLB100("Bedroom LB120").setState(1, 90);
 
 The two parameters are:
 
-- on_off: 1 on, 0 on_off
+- on_off: 1 on, 0 off
 - brightness: 0-100
 
-If you have an LB130, use this:
+If you have an LB120 or KL120 (tunable white), you can also change color temperature:
 
 ```javascript
-await tplink.getLB130("Kitchen LB130").setState(1, 90, 150, 80);
+await tplink.getLB120("Lamp LB120").setState(1, 90, 2700);
 ```
 
-The four parameters for LB130 are:
+The three parameters for LB120 or KL120 are:
+- on_off: 1 on, 0 off
+- brightness: 0-100
+- color_temp:
+  - 2500-6500 (LB120)
+  - 2700-5000 (KL120)
 
-- on_off: 1 on, 0 on_off
+If you have an LB130 or KL130 (multicolor), use this:
+
+```javascript
+// to set hue:
+await tplink.getLB130("Kitchen LB130").setState(1, 90, 150, 80);
+// or to change white color temperature:
+await tplink.getLB130("Kitchen LB130").setState(1, 90, 0, 0, 2700);
+```
+
+The five parameters for LB130 or KL130 are:
+
+- on_off: 1 on, 0 off
 - brightness: 0-100
 - hue: 0-360
 - saturation: 0-100
+- color_temp: 2500-9000
 
 For help to choose the hue/saturation value, you can head to http://colorizer.org/.
 
