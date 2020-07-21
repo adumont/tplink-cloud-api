@@ -120,6 +120,8 @@ The five parameters for LB130 or KL130 are:
 - saturation: 0-100
 - color_temp: 2500-9000
 
+For color bulbs, color_temp overrides hue/saturation. If a bulb is in white mode, color_temp must be set to 0 in order to change colors.
+
 For help to choose the hue/saturation value, you can head to http://colorizer.org/.
 
 # Example
