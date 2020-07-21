@@ -214,6 +214,9 @@ export default class TPLink {
   getLB110(alias) {
     return this.getLB100(alias);
   }
+  getKL110(alias) {
+    return this.getLB100(alias);
+  }
   getKL50(alias) {
     return this.getLB100(alias);
   }
