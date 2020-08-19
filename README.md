@@ -5,7 +5,7 @@
 
 The `tplink-cloud-api` NPM module allows your to remotely control your TP-Link smartplugs (HS100, HS110), smart switches (HS200), and smartbulbs (LB100, LB110, LB120, LB130) using the TP-Link cloud web service, from anywhere, without the need to be on the same wifi/lan.
 
-It's especially useful in scenarios where you want to control your devices from public web services, like IFTTT, Thinger.io, Webtasks.io, Glitch.com...
+It's especially useful in scenarios where you want to control your devices from public web services, like IFTTT, Thinger.io, Webtasks.io, Glitch.com, Tasker (Android)...
 
 It's based on my investigation work on the TP-Link API protocol, which I have been sharing in my blog http://itnerd.space.
 
