@@ -22,6 +22,7 @@ tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import lb100 from "./lb100";
 
+// Should work for LB130, KB130, KL130
 export default class LB130 extends lb100 {
   constructor(tpLink, deviceInfo) {
     super(tpLink, deviceInfo);
@@ -31,19 +32,22 @@ export default class LB130 extends lb100 {
     onOff: number,
     brightness?: number,
     hue?: number,
-    saturation?: number
+    saturation?: number,
+    colorTemp?: number
   ) {
     // on_off: 1 on, 0 off
     // brightness: 0-100
     // hue: 0-360
     // saturation: 0-100,
     // See HSB in http://colorizer.org/
+    // color_temp: 2500-9000
     return await super.passthroughRequest({
       "smartlife.iot.smartbulb.lightingservice": {
         transition_light_state: {
           brightness,
           hue,
           saturation,
+          color_temp: colorTemp,
           on_off: onOff
         }
       }

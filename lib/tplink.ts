@@ -28,6 +28,7 @@ import hs100 from "./hs100";
 import hs110 from "./hs110";
 import hs200 from "./hs200";
 import lb100 from "./lb100";
+import lb120 from "./lb120";
 import lb130 from "./lb130";
 
 /* Example
@@ -155,6 +156,9 @@ export default class TPLink {
       if (model && model.includes("130")) {
         return new lb130(this, deviceInfo);
       }
+      if (model && model.includes("120")) {
+        return new lb120(this, deviceInfo);
+      }
       return new lb100(this, deviceInfo);
     }
     if (type.includes("plug")) {
@@ -203,19 +207,39 @@ export default class TPLink {
     return new hs200(this, this.findDevice(alias));
   }
 
-  // for an LB100, LB110 & LB120
+  // for an LB100, LB110, KL110, KL50, KL60 lightbulb (dimmable)
   getLB100(alias): lb100 {
     return new lb100(this, this.findDevice(alias));
   }
   getLB110(alias) {
     return this.getLB100(alias);
   }
-  getLB120(alias) {
+  getKL110(alias) {
+    return this.getLB100(alias);
+  }
+  getKL50(alias) {
+    return this.getLB100(alias);
+  }
+  getKL60(alias) {
     return this.getLB100(alias);
   }
 
-  // for an LB130 lightbulb
+  // for an LB120, KL120 lightbulb (dimmable, tunable white)
+  getLB120(alias): lb120 {
+    return new lb120(this, this.findDevice(alias));
+  }
+  getKL120(alias) {
+    return this.getLB120(alias);
+  }
+
+  // for an LB130, KB130, KL130 lightbulb (dimmable, tunable white, color changing)
   getLB130(alias) {
     return new lb130(this, this.findDevice(alias));
+  }
+  getKB130(alias) {
+    return this.getLB130(alias);
+  }
+  getKL130(alias) {
+    return this.getLB130(alias);
   }
 }
