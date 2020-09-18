@@ -30,6 +30,11 @@ import hs200 from "./hs200";
 import lb100 from "./lb100";
 import lb120 from "./lb120";
 import lb130 from "./lb130";
+import curlirize from 'axios-curlirize';
+
+if( process.env.CURLIRIZE ) {
+  curlirize(axios);
+}
 
 /* Example
 {
