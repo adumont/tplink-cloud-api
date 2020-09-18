@@ -80,7 +80,9 @@ export async function login(
       }
     },
     headers: {
-      "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)"
+      "User-Agent":
+        "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
+      "Content-Type": "application/json"
     }
   };
 
@@ -121,7 +123,8 @@ export default class TPLink {
       },
       headers: {
         "User-Agent":
-          "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)"
+          "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
+          "Content-Type": "application/json"
       },
       data: { method: "getDeviceList" }
     };
