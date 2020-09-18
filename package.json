@@ -54,7 +54,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.12",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.17.32",
+    "@types/node": "^10.17.35",
     "@types/uuid": "^3.4.9",
     "axios-mock-adapter": "^1.18.2",
     "chai": "^4.1.2",
