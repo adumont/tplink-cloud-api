@@ -1,6 +1,6 @@
 {
   "name": "tplink-cloud-api",
-  "description": "Remotely control TP-Link smartplugs (HS100, HS110) and smartbulbs (LB100, LB110, LB120, LB130) using their cloud web service (no need to be on the same wifi/lan)",
+  "description": "Remotely control TP-Link smartplugs (HS100, HS110, HS300) and smartbulbs (LB100, LB110, LB120, LB130) using their cloud web service (no need to be on the same wifi/lan)",
   "author": "Alexandre Dumont <adumont@gmail.com>",
   "homepage": "http://itnerd.space",
   "license": "GPL-3.0",
@@ -41,7 +41,8 @@
     "KB130",
     "KL110",
     "KL120",
-    "KL130"
+    "KL130",
+    "HS300"
   ],
   "engines": {
     "node": ">=6.0.0"
