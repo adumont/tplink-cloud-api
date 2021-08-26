@@ -16,7 +16,7 @@
   "files": [
     "/distribution/**/*"
   ],
-  "types": "distribution/index.d.ts",
+  "types": "distribution/tplink.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tslint --project tsconfig.json -c tslint.json lib/**/*.ts",
