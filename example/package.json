@@ -1,0 +1,23 @@
+{
+  "name": "tplink-cloud-api-example",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "tplink-cloud-api": "link:.."
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "scripts": {
+    "start": "ts-node example.ts"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

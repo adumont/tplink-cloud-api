@@ -20,7 +20,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { v4 } from "uuid";
 import { checkError } from "./api-utils";
 import device from "./device";
@@ -31,11 +31,6 @@ import hs300 from "./hs300";
 import lb100 from "./lb100";
 import lb120 from "./lb120";
 import lb130 from "./lb130";
-import axiosCurlirize from 'axios-curlirize';
-
-if( process.env.CURLIRIZE ) {
-  axiosCurlirize(axios);
-}
 
 /* Example
 {
@@ -64,20 +59,14 @@ export async function login(
     throw new Error("missing required password parameter");
   }
 
-  const request = {
+  const request: AxiosRequestConfig<any> = {
     method: "POST",
     url: "https://wap.tplinkcloud.com",
-    params: {
-      appName: "Kasa_Android",
-      termID: termid,
-      appVer: "1.4.4.607",
-      ospf: "Android+6.0.1",
-      netType: "wifi",
-      locale: "es_ES"
+    headers: {
+      "Content-Type": "application/json"
     },
     data: {
       method: "login",
-      url: "https://wap.tplinkcloud.com",
       params: {
         appType: "Kasa_Android",
         cloudPassword: passwd,
@@ -85,11 +74,6 @@ export async function login(
         terminalUUID: termid
       }
     },
-    headers: {
-      "User-Agent":
-        "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-      "Content-Type": "application/json"
-    }
   };
 
   const response = await axios(request);
@@ -115,24 +99,20 @@ export default class TPLink {
   }
 
   async getDeviceList(): Promise<any[]> {
-    const request = {
+    const request: AxiosRequestConfig<any> = {
       method: "POST",
       url: "https://wap.tplinkcloud.com",
-      params: {
-        appName: "Kasa_Android",
-        termID: this.termid,
-        appVer: "1.4.4.607",
-        ospf: "Android+6.0.1",
-        netType: "wifi",
-        locale: "es_ES",
-        token: this.token
-      },
       headers: {
-        "User-Agent":
-          "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-          "Content-Type": "application/json"
+        "Content-Type": "application/json"
       },
-      data: { method: "getDeviceList" }
+      data: {
+        method: "getDeviceList",
+        params: {
+          appName: "Kasa_Android",
+          termID: this.termid,
+          token: this.token
+        },
+      }
     };
 
     const response = await axios(request);
