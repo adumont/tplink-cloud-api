@@ -20,7 +20,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import tplink from "./tplink";
 import { checkError } from "./api-utils";
 
@@ -118,7 +118,7 @@ export default class TPLinkDevice {
     return this.passthroughRequest(command);
   }
   async passthroughRequest(command) {
-    const request = {
+    const request: AxiosRequestConfig<any> = {
       method: "POST",
       url: this.device.appServerUrl,
       params: this.params,
