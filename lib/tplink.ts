@@ -27,13 +27,14 @@ import device from "./device";
 import hs100 from "./hs100";
 import hs110 from "./hs110";
 import hs200 from "./hs200";
+import hs220 from "./hs220";
 import hs300 from "./hs300";
 import lb100 from "./lb100";
 import lb120 from "./lb120";
 import lb130 from "./lb130";
-import axiosCurlirize from 'axios-curlirize';
+import axiosCurlirize from "axios-curlirize";
 
-if( process.env.CURLIRIZE ) {
+if (process.env.CURLIRIZE) {
   axiosCurlirize(axios);
 }
 
@@ -73,7 +74,7 @@ export async function login(
       appVer: "1.4.4.607",
       ospf: "Android+6.0.1",
       netType: "wifi",
-      locale: "es_ES"
+      locale: "es_ES",
     },
     data: {
       method: "login",
@@ -82,14 +83,14 @@ export async function login(
         appType: "Kasa_Android",
         cloudPassword: passwd,
         cloudUserName: user,
-        terminalUUID: termid
-      }
+        terminalUUID: termid,
+      },
     },
     headers: {
       "User-Agent":
         "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const response = await axios(request);
@@ -125,14 +126,14 @@ export default class TPLink {
         ospf: "Android+6.0.1",
         netType: "wifi",
         locale: "es_ES",
-        token: this.token
+        token: this.token,
       },
       headers: {
         "User-Agent":
           "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-          "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      data: { method: "getDeviceList" }
+      data: { method: "getDeviceList" },
     };
 
     const response = await axios(request);
@@ -161,7 +162,8 @@ export default class TPLink {
     // https://github.com/plasticrake/tplink-smarthome-api/blob/master/src/device/index.js#L113
     const type = deviceInfo.deviceType.toLowerCase();
     const model = deviceInfo.deviceModel;
-    if (type.includes("bulb")) {
+
+    if (type.endsWith("smartbulb")) {
       if (model && model.includes("130")) {
         return new lb130(this, deviceInfo);
       }
@@ -170,16 +172,18 @@ export default class TPLink {
       }
       return new lb100(this, deviceInfo);
     }
-    if (type.includes("plug")) {
+    if (type.endsWith("smartplug")) {
       if (model && model.includes("110")) {
         return new hs110(this, deviceInfo);
       }
       return new hs100(this, deviceInfo);
     }
-
-    if (type.includes("switch")) {
+    if (type.endsWith("smartplugswitch")) {
       if (model && model.includes("200")) {
         return new hs200(this, deviceInfo);
+      }
+      if (model && model.includes("220")) {
+        return new hs220(this, deviceInfo);
       }
     }
     return new device(this, deviceInfo);
@@ -189,10 +193,10 @@ export default class TPLink {
     let deviceInfo;
     if (alias && this.deviceList) {
       // we first search a correspondig device by alias
-      deviceInfo = this.deviceList.find(d => d.alias === alias);
+      deviceInfo = this.deviceList.find((d) => d.alias === alias);
       // we then search a correspondig device by deviceId
       if (!deviceInfo) {
-        deviceInfo = this.deviceList.find(d => d.deviceId === alias);
+        deviceInfo = this.deviceList.find((d) => d.deviceId === alias);
       }
     }
     if (!deviceInfo) {

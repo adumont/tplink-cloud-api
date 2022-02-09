@@ -21,7 +21,6 @@ You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import device from "./device";
-import HS300 from "./hs300";
 
 export default class HS300child extends device {
   private child;
@@ -42,8 +41,8 @@ export default class HS300child extends device {
 
   async setRelayState(state) {
     return await super.passthroughRequest({
-      context: { child_ids:[ this.child.id ] },
-      system: { set_relay_state: { state } }
+      context: { child_ids: [this.child.id] },
+      system: { set_relay_state: { state } },
     });
   }
   async set_relay_state(state) {
@@ -53,15 +52,15 @@ export default class HS300child extends device {
 
   async getScheduleRules() {
     return await super.passthroughRequest({
-      context: { child_ids:[ this.child.id ] },
-      schedule: { get_rules: {} } 
+      context: { child_ids: [this.child.id] },
+      schedule: { get_rules: {} },
     });
   }
 
   async editScheduleRule(rule) {
     return await super.passthroughRequest({
-      context: { child_ids:[ this.child.id ] },
-      schedule: { edit_rule: rule }
+      context: { child_ids: [this.child.id] },
+      schedule: { edit_rule: rule },
     });
   }
 
@@ -70,8 +69,8 @@ export default class HS300child extends device {
     const offState = on ? 0 : 1;
 
     return await super.passthroughRequest({
-      context: { child_ids:[ this.child.id ] },
-      "system": { "set_led_off": { "off": offState  } }
+      context: { child_ids: [this.child.id] },
+      system: { set_led_off: { off: offState } },
     });
   }
 
@@ -99,9 +98,9 @@ export default class HS300child extends device {
 
   async getSysInfo() {
     const r = await super.passthroughRequest({
-      context: { child_ids:[ this.child.id ] },
+      context: { child_ids: [this.child.id] },
       system: { get_sysinfo: null },
-      emeter: { get_realtime: null }
+      emeter: { get_realtime: null },
     });
     return r.system.get_sysinfo;
   }
