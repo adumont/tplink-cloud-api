@@ -220,6 +220,11 @@ export default class TPLink {
     return new hs200(this, this.findDevice(alias));
   }
 
+  // for an HS220 smart switch
+  getHS220(alias) {
+    return new hs220(this, this.findDevice(alias));
+  }
+
   // for an HS300 smart multi-switch
   getHS300(alias) {
     return new hs300(this, this.findDevice(alias));
