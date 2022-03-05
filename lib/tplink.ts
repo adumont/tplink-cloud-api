@@ -22,18 +22,19 @@ tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import axios from "axios";
 import { v4 } from "uuid";
-import { checkError } from "./api-utils";
+import { checkError, buildRequestParams } from "./api-utils";
 import device from "./device";
 import hs100 from "./hs100";
 import hs110 from "./hs110";
 import hs200 from "./hs200";
+import hs220 from "./hs220";
 import hs300 from "./hs300";
 import lb100 from "./lb100";
 import lb120 from "./lb120";
 import lb130 from "./lb130";
-import axiosCurlirize from 'axios-curlirize';
+import axiosCurlirize from "axios-curlirize";
 
-if( process.env.CURLIRIZE ) {
+if (process.env.CURLIRIZE) {
   axiosCurlirize(axios);
 }
 
@@ -64,38 +65,22 @@ export async function login(
     throw new Error("missing required password parameter");
   }
 
-  const request = {
-    method: "POST",
-    url: "https://wap.tplinkcloud.com",
-    params: {
-      appName: "Kasa_Android",
-      termID: termid,
-      appVer: "1.4.4.607",
-      ospf: "Android+6.0.1",
-      netType: "wifi",
-      locale: "es_ES"
-    },
-    data: {
+  const request = buildRequestParams(
+    {
       method: "login",
       url: "https://wap.tplinkcloud.com",
       params: {
         appType: "Kasa_Android",
         cloudPassword: passwd,
         cloudUserName: user,
-        terminalUUID: termid
-      }
+        terminalUUID: termid,
+      },
     },
-    headers: {
-      "User-Agent":
-        "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-      "Content-Type": "application/json"
-    }
-  };
-
+    termid
+  );
   const response = await axios(request);
   checkError(response);
-  const token = response.data.result.token;
-  return new TPLink(token, termid);
+  return new TPLink(response.data.result.token, termid);
 }
 
 export default class TPLink {
@@ -115,26 +100,11 @@ export default class TPLink {
   }
 
   async getDeviceList(): Promise<any[]> {
-    const request = {
-      method: "POST",
-      url: "https://wap.tplinkcloud.com",
-      params: {
-        appName: "Kasa_Android",
-        termID: this.termid,
-        appVer: "1.4.4.607",
-        ospf: "Android+6.0.1",
-        netType: "wifi",
-        locale: "es_ES",
-        token: this.token
-      },
-      headers: {
-        "User-Agent":
-          "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-          "Content-Type": "application/json"
-      },
-      data: { method: "getDeviceList" }
-    };
-
+    const request = buildRequestParams(
+      { method: "getDeviceList" },
+      this.getTermId(),
+      this.getToken()
+    );
     const response = await axios(request);
     checkError(response);
     return (this.deviceList = response.data.result.deviceList);
@@ -158,28 +128,16 @@ export default class TPLink {
       deviceInfo = this.findDevice(nameOrInfo);
     }
 
-    // https://github.com/plasticrake/tplink-smarthome-api/blob/master/src/device/index.js#L113
-    const type = deviceInfo.deviceType.toLowerCase();
-    const model = deviceInfo.deviceModel;
-    if (type.includes("bulb")) {
-      if (model && model.includes("130")) {
-        return new lb130(this, deviceInfo);
-      }
-      if (model && model.includes("120")) {
-        return new lb120(this, deviceInfo);
-      }
-      return new lb100(this, deviceInfo);
-    }
-    if (type.includes("plug")) {
-      if (model && model.includes("110")) {
-        return new hs110(this, deviceInfo);
-      }
-      return new hs100(this, deviceInfo);
-    }
+    return this.builder(deviceInfo);
+  }
 
-    if (type.includes("switch")) {
-      if (model && model.includes("200")) {
-        return new hs200(this, deviceInfo);
+  builder(deviceInfo: any): device {
+    const devices = { lb130, lb120, lb100, hs110, hs100, hs200, hs220 };
+    const model = deviceInfo.deviceModel.toLowerCase();
+
+    for (const [key, value] of Object.entries(devices)) {
+      if (model.includes(key)) {
+        return new value(this, deviceInfo);
       }
     }
     return new device(this, deviceInfo);
@@ -189,10 +147,10 @@ export default class TPLink {
     let deviceInfo;
     if (alias && this.deviceList) {
       // we first search a correspondig device by alias
-      deviceInfo = this.deviceList.find(d => d.alias === alias);
+      deviceInfo = this.deviceList.find((d) => d.alias === alias);
       // we then search a correspondig device by deviceId
       if (!deviceInfo) {
-        deviceInfo = this.deviceList.find(d => d.deviceId === alias);
+        deviceInfo = this.deviceList.find((d) => d.deviceId === alias);
       }
     }
     if (!deviceInfo) {
@@ -214,6 +172,11 @@ export default class TPLink {
   // for an HS200 smart switch
   getHS200(alias) {
     return new hs200(this, this.findDevice(alias));
+  }
+
+  // for an HS220 smart switch
+  getHS220(alias) {
+    return new hs220(this, this.findDevice(alias));
   }
 
   // for an HS300 smart multi-switch

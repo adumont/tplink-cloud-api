@@ -18,8 +18,8 @@ describe("tplink", () => {
             token: "feedbeef1234",
             regTime: "2017-12-09 03:53:19",
             accountId: "12456",
-            email: "someone@somewhere.com"
-          }
+            email: "someone@somewhere.com",
+          },
         })
         // device list
         .onAny("https://wap.tplinkcloud.com")
@@ -52,7 +52,7 @@ describe("tplink", () => {
       .onPost("https://wap.tplinkcloud.com")
       .replyOnce(200, {
         error_code: 0,
-        result: { token: "feedbeef1234" }
+        result: { token: "feedbeef1234" },
       })
       // device list
       .onPost("https://wap.tplinkcloud.com")
@@ -63,11 +63,15 @@ describe("tplink", () => {
             {
               alias: "living room bulb",
               status: 1,
-              deviceType: "IOT.SMARTBULB"
+              deviceType: "IOT.SMARTBULB",
             },
-            { alias: "bedroom tv plug", status: 1, deviceType: "IOT.SMARTPLUG" }
-          ]
-        }
+            {
+              alias: "bedroom tv plug",
+              status: 1,
+              deviceType: "IOT.SMARTPLUG",
+            },
+          ],
+        },
       })
       .onAny("https://wap.tplinkcloud.com")
       .reply(400, { error_code: 2, msg: "bad request" });
@@ -79,9 +83,9 @@ describe("tplink", () => {
       {
         alias: "living room bulb",
         status: 1,
-        deviceType: "IOT.SMARTBULB"
+        deviceType: "IOT.SMARTBULB",
       },
-      { alias: "bedroom tv plug", status: 1, deviceType: "IOT.SMARTPLUG" }
+      { alias: "bedroom tv plug", status: 1, deviceType: "IOT.SMARTPLUG" },
     ]);
   });
   describe("finder methods", () => {
@@ -92,14 +96,16 @@ describe("tplink", () => {
           deviceId: 123,
           alias: "living room bulb",
           status: 1,
-          deviceType: "IOT.SMARTBULB"
+          deviceType: "IOT.SMARTBULB",
+          deviceModel: "LB100",
         },
         {
           deviceId: 456,
           alias: "bedroom tv plug",
           status: 1,
-          deviceType: "IOT.SMARTPLUG"
-        }
+          deviceType: "IOT.SMARTPLUG",
+          deviceModel: "HS100",
+        },
       ];
       expect(() => lTplink.findDevice("dne")).to.throw(Error);
       expect(() => lTplink.findDevice("bedroom tv plug")).not.to.throw();
@@ -108,7 +114,8 @@ describe("tplink", () => {
         deviceId: 456,
         alias: "bedroom tv plug",
         status: 1,
-        deviceType: "IOT.SMARTPLUG"
+        deviceType: "IOT.SMARTPLUG",
+        deviceModel: "HS100",
       });
 
       // TODO restrict get* to correct type (eg: getHS100('my bulb') works, but should not)

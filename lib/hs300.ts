@@ -21,14 +21,14 @@ You should have received a copy of the GNU General Public License along with
 tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import hs100 from "./hs100";
-import HS300child from "./hs300child";
-import TPLink from "./tplink";
+import hs300child from "./hs300child";
+import tplink from "./tplink";
 
 export default class HS300 extends hs100 {
   children: any[];
-  tpLink: TPLink;
+  tpLink: tplink;
 
-  constructor(tpLink:TPLink, deviceInfo) {
+  constructor(tpLink: tplink, deviceInfo) {
     super(tpLink, deviceInfo);
     this.tpLink = tpLink;
     this.genericType = "switch";
@@ -36,17 +36,17 @@ export default class HS300 extends hs100 {
 
   async getChildren() {
     const r = await this.getSysInfo();
-    return(this.children = r.children);
+    return (this.children = r.children);
   }
 
   findChild(alias: string): any {
     let child: any;
     if (alias && this.children) {
       // we first search a correspondig device by alias
-      child = this.children.find(d => d.alias === alias);
+      child = this.children.find((d) => d.alias === alias);
       // we then search a correspondig device by deviceId
       if (!child) {
-        child = this.children.find(d => d.id === alias);
+        child = this.children.find((d) => d.id === alias);
       }
     }
     if (!child) {
@@ -56,6 +56,6 @@ export default class HS300 extends hs100 {
   }
 
   getChild(alias) {
-    return new HS300child(this.tpLink, this.device, this.findChild(alias));
+    return new hs300child(this.tpLink, this.device, this.findChild(alias));
   }
 }
