@@ -22,7 +22,7 @@ tplink-cloud-api. If not, see http://www.gnu.org/licenses/. */
 
 import axios from "axios";
 import tplink from "./tplink";
-import { checkError } from "./api-utils";
+import { checkError, buildRequestParams } from "./api-utils";
 
 export interface TPLinkDeviceInfo {
   fwVer: string;
@@ -40,7 +40,8 @@ export interface TPLinkDeviceInfo {
 export default class TPLinkDevice {
   genericType: string;
   device: TPLinkDeviceInfo;
-  private params: any;
+  private token: string;
+  private termId: string;
 
   constructor(tpLink: tplink, deviceInfo: TPLinkDeviceInfo) {
     if (!tpLink) {
@@ -51,17 +52,10 @@ export default class TPLinkDevice {
       throw new Error("invalid type passed for deviceInfo, expected object.");
     }
 
-    this.device = deviceInfo;
-    this.params = {
-      appName: "Kasa_Android",
-      termID: tpLink.termid,
-      appVer: "1.4.4.607",
-      ospf: "Android+6.0.1",
-      netType: "wifi",
-      locale: "es_ES",
-      token: tpLink.token
-    };
     this.genericType = "device";
+    this.device = deviceInfo;
+    this.token = tpLink.token;
+    this.termId = tpLink.termid;
   }
 
   get firmwareVersion() {
@@ -112,35 +106,22 @@ export default class TPLinkDevice {
     return r.system.get_sysinfo;
   }
 
-  /* send a device-specific request */
-  async tplink_request(command) {
-    // TODO remove
-    return this.passthroughRequest(command);
-  }
   async passthroughRequest(command) {
-    const request = {
-      method: "POST",
-      url: this.device.appServerUrl,
-      params: this.params,
-      headers: {
-        "cache-control": "no-cache",
-        "User-Agent":
-          "Dalvik/2.1.0 (Linux; U; Android 6.0.1; A0001 Build/M4B30X)",
-        "Content-Type": "application/json"
+    const data = {
+      method: "passthrough",
+      params: {
+        deviceId: this.device.deviceId,
+        requestData: JSON.stringify(command),
       },
-      data: {
-        method: "passthrough",
-        params: {
-          deviceId: this.device.deviceId,
-          requestData: JSON.stringify(command)
-        }
-      }
     };
+
+    const request = buildRequestParams(data, this.termId, this.token, {
+      url: this.device.appServerUrl,
+    });
 
     const response = await axios(request);
     checkError(response);
 
-    // eg: {"error_code":0,"result":{"responseData":"{\"smartlife.iot.smartbulb.lightingservice\":{\"get_light_state\":{\"on_off\":0,\"dft_on_state\":{\"mode\":\"normal\",\"hue\":0,\"saturation\":0,\"color_temp\":2700,\"brightness\":10},\"err_code\":0}}}"}}
     return response.data &&
       response.data.result &&
       response.data.result.responseData
